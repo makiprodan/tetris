@@ -16,6 +16,10 @@
                     <span class="value" id="score">0</span>
                 </div>
                 <div class="score-item">
+                    <span class="label">RECORDE</span>
+                    <span class="value" id="high-score">0</span>
+                </div>
+                <div class="score-item">
                     <span class="label">LINHAS</span>
                     <span class="value" id="lines">0</span>
                 </div>
@@ -27,9 +31,17 @@
         </div>
         
         <div class="game-board-container">
-            <div class="next-piece-container">
-                <h3>PRÓXIMA</h3>
-                <canvas id="next-canvas" width="80" height="80"></canvas>
+            <div class="side-panel">
+                <div class="next-piece-container">
+                    <h3>PRÓXIMA</h3>
+                    <canvas id="next-canvas" width="80" height="80"></canvas>
+                </div>
+                
+                <div class="hold-piece-container">
+                    <h3>SEGURAR</h3>
+                    <canvas id="hold-canvas" width="80" height="80"></canvas>
+                    <p class="hold-hint">Pressione C</p>
+                </div>
             </div>
             
             <div class="main-game">
@@ -41,23 +53,49 @@
                 </div>
             </div>
             
-            <div class="controls-info">
-                <h3>CONTROLES</h3>
-                <div class="control-item">
-                    <span class="key">←→</span>
-                    <span class="action">Mover</span>
+            <div class="side-panel">
+                <div class="controls-info">
+                    <h3>CONTROLES</h3>
+                    <div class="control-item">
+                        <span class="key">←→</span>
+                        <span class="action">Mover</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↓</span>
+                        <span class="action">Acelerar</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↑</span>
+                        <span class="action">Rotacionar</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">C</span>
+                        <span class="action">Segurar</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">ESPAÇO</span>
+                        <span class="action">Pausar</span>
+                    </div>
                 </div>
-                <div class="control-item">
-                    <span class="key">↓</span>
-                    <span class="action">Acelerar</span>
-                </div>
-                <div class="control-item">
-                    <span class="key">↑</span>
-                    <span class="action">Rotacionar</span>
-                </div>
-                <div class="control-item">
-                    <span class="key">ESPAÇO</span>
-                    <span class="action">Pausar</span>
+                
+                <div class="stats-container">
+                    <h3>ESTATÍSTICAS</h3>
+                    <div class="stat-item">
+                        <span class="stat-label">Peças:</span>
+                        <span class="stat-value" id="pieces-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Tempo:</span>
+                        <span class="stat-value" id="game-time">00:00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">PPS:</span>
+                        <span class="stat-value" id="pps">0.0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Tetris:</span>
+                        <span class="stat-value" id="tetris-count">0</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,6 +103,7 @@
         <div class="mobile-controls">
             <div class="control-row">
                 <button class="control-btn" id="rotate-btn">↻</button>
+                <button class="control-btn" id="hold-btn">📦</button>
                 <button class="control-btn" id="pause-btn">⏸</button>
             </div>
             <div class="control-row">

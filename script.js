@@ -80,17 +80,29 @@ const PIECES = {
 };
 
 // Variáveis do jogo
-let canvas, ctx, nextCanvas, nextCtx;
+let canvas, ctx, nextCanvas, nextCtx, holdCanvas, holdCtx;
 let board = [];
 let currentPiece = null;
 let nextPiece = null;
-let gameRunning = false;
-let gamePaused = false;
+let holdPiece = null;
+let canHold = true;
+let ghostPiece = null;
 let score = 0;
 let lines = 0;
 let level = 1;
+let highScore = 0;
+let gameRunning = false;
+let isPaused = false;
 let dropTime = 0;
 let lastTime = 0;
+
+// Estatísticas do jogo
+let gameStats = {
+    piecesPlaced: 0,
+    tetrisCount: 0,
+    startTime: null,
+    gameTime: 0
+};
 
 // Pontuação
 const POINTS = {
@@ -100,15 +112,34 @@ const POINTS = {
     4: 1200  // 4 linhas (Tetris)
 };
 
+// Funções de High Score
+function loadHighScore() {
+    const saved = localStorage.getItem('tetris-highscore');
+    highScore = saved ? parseInt(saved) : 0;
+    updateScore();
+}
+
+function saveHighScore() {
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('tetris-highscore', highScore.toString());
+    }
+}
+
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
     canvas = document.getElementById('game-canvas');
     ctx = canvas.getContext('2d');
     nextCanvas = document.getElementById('next-canvas');
     nextCtx = nextCanvas.getContext('2d');
+    holdCanvas = document.getElementById('hold-canvas');
+    holdCtx = holdCanvas.getContext('2d');
     
     // Ajustar tamanho do canvas baseado no CSS
     resizeCanvas();
+    
+    // Carregar high score
+    loadHighScore();
     
     // Event listeners
     document.addEventListener('keydown', handleKeyPress);
@@ -160,14 +191,26 @@ function initGame() {
     level = 1;
     dropTime = 0;
     gameRunning = true;
-    gamePaused = false;
+    isPaused = false;
+    holdPiece = null;
+    canHold = true;
+    
+    // Reset das estatísticas
+    gameStats = {
+        piecesPlaced: 0,
+        tetrisCount: 0,
+        startTime: Date.now(),
+        gameTime: 0
+    };
     
     // Gerar primeira peça
     currentPiece = generatePiece();
     nextPiece = generatePiece();
+    updateGhostPiece();
     
     // Atualizar UI
     updateScore();
+    updateStats();
     hideGameOver();
     hidePause();
 }
@@ -184,6 +227,63 @@ function generatePiece() {
         y: 0,
         color: COLORS[type]
     };
+}
+
+// Sistema de Hold Piece
+function holdCurrentPiece() {
+    if (!gameRunning || isPaused || !canHold) return;
+    
+    if (holdPiece === null) {
+        // Primeira vez segurando uma peça
+        holdPiece = {
+            type: currentPiece.type,
+            color: currentPiece.color
+        };
+        currentPiece = nextPiece;
+        nextPiece = generatePiece();
+    } else {
+        // Trocar peça atual com a segurada
+        const temp = {
+            type: holdPiece.type,
+            color: holdPiece.color
+        };
+        
+        holdPiece = {
+            type: currentPiece.type,
+            color: currentPiece.color
+        };
+        
+        currentPiece = {
+            type: temp.type,
+            shape: PIECES[temp.type][0],
+            rotation: 0,
+            x: Math.floor(BOARD_WIDTH / 2) - Math.floor(PIECES[temp.type][0][0].length / 2),
+            y: 0,
+            color: temp.color
+        };
+    }
+    
+    canHold = false; // Só pode segurar uma vez por peça
+    updateGhostPiece();
+}
+
+// Sistema de Ghost Piece
+function updateGhostPiece() {
+    if (!currentPiece) return;
+    
+    ghostPiece = {
+        type: currentPiece.type,
+        shape: currentPiece.shape,
+        rotation: currentPiece.rotation,
+        x: currentPiece.x,
+        y: currentPiece.y,
+        color: currentPiece.color
+    };
+    
+    // Encontrar a posição mais baixa possível
+    while (isValidPosition(ghostPiece.shape, ghostPiece.x, ghostPiece.y + 1)) {
+        ghostPiece.y++;
+    }
 }
 
 function handleKeyPress(e) {
@@ -210,11 +310,15 @@ function handleKeyPress(e) {
             e.preventDefault();
             togglePause();
             break;
+        case 'KeyC':
+            e.preventDefault();
+            holdCurrentPiece();
+            break;
     }
 }
 
 function movePiece(dx, dy) {
-    if (!gameRunning || gamePaused) return;
+    if (!gameRunning || isPaused) return;
     
     const newX = currentPiece.x + dx;
     const newY = currentPiece.y + dy;
@@ -222,6 +326,7 @@ function movePiece(dx, dy) {
     if (isValidPosition(currentPiece.shape, newX, newY)) {
         currentPiece.x = newX;
         currentPiece.y = newY;
+        updateGhostPiece();
         return true;
     }
     
@@ -235,7 +340,7 @@ function movePiece(dx, dy) {
 }
 
 function rotatePiece() {
-    if (!gameRunning || gamePaused) return;
+    if (!gameRunning || isPaused) return;
     
     const rotations = PIECES[currentPiece.type];
     const nextRotation = (currentPiece.rotation + 1) % rotations.length;
@@ -244,6 +349,7 @@ function rotatePiece() {
     if (isValidPosition(rotatedShape, currentPiece.x, currentPiece.y)) {
         currentPiece.shape = rotatedShape;
         currentPiece.rotation = nextRotation;
+        updateGhostPiece();
     }
 }
 
@@ -284,18 +390,39 @@ function placePiece() {
         }
     }
     
+    // Atualizar estatísticas
+    gameStats.piecesPlaced++;
+    
     // Verificar linhas completas
     const linesCleared = clearLines();
     if (linesCleared > 0) {
         lines += linesCleared;
-        score += POINTS[linesCleared] * level;
+        
+        // Calcular pontuação baseada no número de linhas
+        let points = 0;
+        switch(linesCleared) {
+            case 1: points = POINTS.SINGLE; break;
+            case 2: points = POINTS.DOUBLE; break;
+            case 3: points = POINTS.TRIPLE; break;
+            case 4: 
+                points = POINTS.TETRIS;
+                gameStats.tetrisCount++;
+                break;
+        }
+        
+        score += points * level;
         level = Math.floor(lines / 10) + 1;
         updateScore();
+        updateStats();
     }
+    
+    // Permitir hold novamente
+    canHold = true;
     
     // Gerar nova peça
     currentPiece = nextPiece;
     nextPiece = generatePiece();
+    updateGhostPiece();
     
     // Verificar game over
     if (!isValidPosition(currentPiece.shape, currentPiece.x, currentPiece.y)) {
@@ -323,7 +450,7 @@ function gameLoop(time = 0) {
     const deltaTime = time - lastTime;
     lastTime = time;
     
-    if (gameRunning && !gamePaused) {
+    if (gameRunning && !isPaused) {
         dropTime += deltaTime;
         
         // Velocidade baseada no nível
@@ -335,6 +462,9 @@ function gameLoop(time = 0) {
             }
             dropTime = 0;
         }
+        
+        // Atualizar estatísticas
+        updateStats();
     }
     
     draw();
@@ -362,8 +492,16 @@ function draw() {
         drawPiece(currentPiece, blockSize);
     }
     
+    // Desenhar peça fantasma
+    if (ghostPiece && ghostPiece.y !== currentPiece.y) {
+        drawGhostPiece(ghostPiece, blockSize);
+    }
+    
     // Desenhar próxima peça
     drawNextPiece();
+    
+    // Desenhar peça segurada
+    drawHoldPiece();
 }
 
 function drawBlock(x, y, size, color) {
@@ -391,6 +529,27 @@ function drawPiece(piece, blockSize) {
             }
         }
     }
+}
+
+function drawGhostPiece(piece, blockSize) {
+    ctx.save();
+    ctx.globalAlpha = 0.3;
+    
+    for (let row = 0; row < piece.shape.length; row++) {
+        for (let col = 0; col < piece.shape[row].length; col++) {
+            if (piece.shape[row][col]) {
+                const x = (piece.x + col) * blockSize;
+                const y = (piece.y + row) * blockSize;
+                
+                // Desenhar apenas a borda
+                ctx.strokeStyle = piece.color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x + 1, y + 1, blockSize - 2, blockSize - 2);
+            }
+        }
+    }
+    
+    ctx.restore();
 }
 
 function drawNextPiece() {
@@ -425,18 +584,72 @@ function drawNextPiece() {
     }
 }
 
+function drawHoldPiece() {
+    holdCtx.fillStyle = '#000';
+    holdCtx.fillRect(0, 0, holdCanvas.width, holdCanvas.height);
+    
+    if (holdPiece) {
+        const shape = PIECES[holdPiece.type][0];
+        const blockSize = 20;
+        const offsetX = (holdCanvas.width - shape[0].length * blockSize) / 2;
+        const offsetY = (holdCanvas.height - shape.length * blockSize) / 2;
+        
+        for (let row = 0; row < shape.length; row++) {
+            for (let col = 0; col < shape[row].length; col++) {
+                if (shape[row][col]) {
+                    const x = offsetX + col * blockSize;
+                    const y = offsetY + row * blockSize;
+                    
+                    holdCtx.fillStyle = holdPiece.color;
+                    holdCtx.fillRect(x, y, blockSize, blockSize);
+                    
+                    // Borda 3D
+                    holdCtx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                    holdCtx.fillRect(x, y, blockSize, 2);
+                    holdCtx.fillRect(x, y, 2, blockSize);
+                    
+                    holdCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                    holdCtx.fillRect(x, y + blockSize - 2, blockSize, 2);
+                    holdCtx.fillRect(x + blockSize - 2, y, 2, blockSize);
+                }
+            }
+        }
+    }
+}
+
 function updateScore() {
     document.getElementById('score').textContent = score.toLocaleString();
     document.getElementById('lines').textContent = lines;
     document.getElementById('level').textContent = level;
+    document.getElementById('high-score').textContent = highScore.toLocaleString();
+}
+
+function updateStats() {
+    document.getElementById('pieces-count').textContent = gameStats.piecesPlaced;
+    document.getElementById('tetris-count').textContent = gameStats.tetrisCount;
+    
+    // Calcular tempo de jogo
+    if (gameStats.startTime) {
+        const currentTime = Date.now();
+        gameStats.gameTime = Math.floor((currentTime - gameStats.startTime) / 1000);
+        
+        const minutes = Math.floor(gameStats.gameTime / 60);
+        const seconds = gameStats.gameTime % 60;
+        document.getElementById('game-time').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Calcular PPS (Pieces Per Second)
+        const pps = gameStats.gameTime > 0 ? (gameStats.piecesPlaced / gameStats.gameTime).toFixed(1) : '0.0';
+        document.getElementById('pps').textContent = pps;
+    }
 }
 
 function togglePause() {
     if (!gameRunning) return;
     
-    gamePaused = !gamePaused;
+    isPaused = !isPaused;
     
-    if (gamePaused) {
+    if (isPaused) {
         showPause();
     } else {
         hidePause();
@@ -453,6 +666,7 @@ function hidePause() {
 
 function gameOver() {
     gameRunning = false;
+    saveHighScore();
     document.getElementById('final-score').textContent = score.toLocaleString();
     showGameOver();
 }

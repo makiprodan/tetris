@@ -1,6 +1,6 @@
-# 🎮 Tetris - Jogo Original
+# 🎮 Tetris - Jogo Clássico Completo
 
-Um jogo Tetris completo e responsivo, fiel ao clássico original, desenvolvido com HTML5, CSS3 e JavaScript puro.
+Um jogo Tetris completo e responsivo com funcionalidades avançadas, fiel ao clássico original, desenvolvido com HTML5, CSS3 e JavaScript puro.
 
 ![Tetris Game](https://img.shields.io/badge/Game-Tetris-brightgreen)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
@@ -8,18 +8,31 @@ Um jogo Tetris completo e responsivo, fiel ao clássico original, desenvolvido c
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 ![Responsive](https://img.shields.io/badge/Design-Responsive-blue)
 
-## 🚀 Demonstração
+![GitHub last commit](https://img.shields.io/github/last-commit/makiprodan/tetris)
+![GitHub issues](https://img.shields.io/github/issues/makiprodan/tetris)
+![GitHub stars](https://img.shields.io/github/stars/makiprodan/tetris)
+![GitHub forks](https://img.shields.io/github/forks/makiprodan/tetris)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fmakiprodan.github.io%2Ftetris)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-brightgreen)
+![GitHub repo size](https://img.shields.io/github/repo-size/makiprodan/tetris)
 
-[🎮 **Jogar Agora**](https://makiprodan.github.io/tetris)
+## 🚀 Demo Online
+🎮 **[Jogar Agora](https://makiprodan.github.io/tetris)**
 
-## ✨ Características
+## ✨ Funcionalidades
 
-### 🎯 Fiel ao Original
+### 🎯 Gameplay Clássico
 - **7 peças clássicas** (I, O, T, S, Z, J, L) com cores originais
 - **Mecânicas autênticas** de rotação e movimento
 - **Sistema de pontuação** baseado no Tetris original
 - **Progressão de níveis** com aumento de velocidade
 - **Detecção de linhas completas** com remoção automática
+
+### 🆕 Funcionalidades Avançadas (v1.1.0)
+- **🏆 High Score Local** - Pontuação máxima salva automaticamente
+- **👻 Peça Fantasma** - Visualização da posição de queda
+- **📦 Sistema Hold** - Segurar peça para uso posterior (tecla C)
+- **📊 Estatísticas Detalhadas** - Peças, tempo, PPS e contagem de Tetris
 
 ### 📱 Totalmente Responsivo
 - **Design adaptativo** para desktop, tablet e mobile
@@ -32,11 +45,13 @@ Um jogo Tetris completo e responsivo, fiel ao clássico original, desenvolvido c
 - `←→` Mover peça horizontalmente
 - `↓` Acelerar descida
 - `↑` Rotacionar peça
+- `C` Segurar/trocar peça
 - `ESPAÇO` Pausar/Despausar
 
 **Mobile:**
 - Botões touch para todas as ações
 - Interface otimizada para toque
+- Botão dedicado para hold
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -45,9 +60,12 @@ Um jogo Tetris completo e responsivo, fiel ao clássico original, desenvolvido c
 - **JavaScript ES6+** - Lógica do jogo
 - **Canvas API** - Renderização gráfica
 
-## 📦 Instalação e Uso
+## 📥 Instalação e Uso
 
-### Método 1: Download Direto
+### Opção 1: Online
+🌐 **[Acessar Online](https://makiprodan.github.io/tetris)**
+
+### Opção 2: Local
 ```bash
 # Clone o repositório
 git clone https://github.com/makiprodan/tetris.git
@@ -60,22 +78,19 @@ cd tetris
 python -m http.server 8000
 ```
 
-### Método 2: GitHub Pages
-1. Faça fork do repositório
-2. Ative o GitHub Pages nas configurações
-3. Acesse: `https://makiprodan.github.io/tetris`
-
-## 🎯 Como Jogar
+## 🎮 Como Usar
 
 1. **Objetivo**: Complete linhas horizontais para ganhar pontos
 2. **Movimento**: Use as setas para mover e rotacionar as peças
-3. **Pontuação**: 
+3. **Hold**: Pressione 'C' para segurar uma peça para uso posterior
+4. **Pontuação**: 
    - 1 linha = 40 pontos × nível
    - 2 linhas = 100 pontos × nível
    - 3 linhas = 300 pontos × nível
    - 4 linhas (Tetris) = 1200 pontos × nível
-4. **Níveis**: A cada 10 linhas completadas, o nível aumenta
-5. **Velocidade**: Peças caem mais rápido a cada nível
+5. **Níveis**: A cada 10 linhas completadas, o nível aumenta
+6. **Velocidade**: Peças caem mais rápido a cada nível
+7. **Estatísticas**: Acompanhe seu desempenho em tempo real
 
 ## 🏗️ Estrutura do Projeto
 
@@ -129,20 +144,42 @@ const dropInterval = Math.max(50, 1000 - (level - 1) * 100);
 
 ## 🤝 Contribuindo
 
-1. Faça fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/NovaFuncionalidade`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
-5. Abra um Pull Request
+Contribuições são bem-vindas! Leia nosso [Guia de Contribuição](CONTRIBUTING.md) para detalhes completos.
+
+### 🚀 Formas de Contribuir:
+- 🐛 [Reportar bugs](https://github.com/makiprodan/tetris/issues/new?template=bug_report.md)
+- ✨ [Sugerir funcionalidades](https://github.com/makiprodan/tetris/issues/new?template=feature_request.md)
+- ❓ [Fazer perguntas](https://github.com/makiprodan/tetris/issues/new?template=question.md)
+- 🔧 Enviar pull requests
+- 📚 Melhorar a documentação
+
+### 📋 Processo Rápido:
+1. 🍴 Fork do projeto
+2. 🌿 Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
+3. 💻 Desenvolva e teste localmente
+4. 📝 Commit (`git commit -m 'feat: adiciona nova funcionalidade'`)
+5. 🚀 Push (`git push origin feature/nova-funcionalidade`)
+6. 🔄 Abra um Pull Request
+
+### 🛡️ Segurança
+Para reportar vulnerabilidades, consulte nossa [Política de Segurança](SECURITY.md).
+
+## 📱 Compatibilidade
+- ✅ Desktop
+- ✅ Tablet
+- ✅ Mobile
+- ✅ Todos os navegadores modernos
 
 ## 📝 Roadmap
 
-- [ ] Sistema de pontuações máximas local
+- [x] Sistema de pontuações máximas local ✅ v1.1.0
+- [x] Modo peça fantasma ✅ v1.1.0
+- [x] Sistema de segurar peça ✅ v1.1.0
+- [x] Estatísticas detalhadas ✅ v1.1.0
 - [ ] Efeitos sonoros
 - [ ] Modo multijogador
 - [ ] Temas personalizáveis
-- [ ] Modo peça fantasma
-- [ ] Sistema de segurar peça
+- [ ] Animações de linha completa aprimoradas
 
 ## 📄 Licença
 

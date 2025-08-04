@@ -1,0 +1,82 @@
+name: 🚀 CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    name: 🧪 Testes e Validação
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout código
+      uses: actions/checkout@v4
+      
+    - name: 🔍 Verificar estrutura de arquivos
+      run: |
+        echo "🔍 Verificando arquivos essenciais..."
+        test -f index.html || (echo "❌ index.html não encontrado" && exit 1)
+        test -f style.css || (echo "❌ style.css não encontrado" && exit 1)
+        test -f script.js || (echo "❌ script.js não encontrado" && exit 1)
+        test -f README.md || (echo "❌ README.md não encontrado" && exit 1)
+        test -f LICENSE || (echo "❌ LICENSE não encontrado" && exit 1)
+        echo "✅ Todos os arquivos essenciais encontrados!"
+        
+    - name: 🎯 Validar HTML
+      run: |
+        echo "🎯 Validando estrutura HTML..."
+        grep -q "<!DOCTYPE html>" index.html || (echo "❌ DOCTYPE não encontrado" && exit 1)
+        grep -q "<title>" index.html || (echo "❌ Title não encontrado" && exit 1)
+        grep -q "viewport" index.html || (echo "❌ Viewport meta tag não encontrada" && exit 1)
+        echo "✅ HTML válido!"
+        
+    - name: 🎨 Verificar CSS
+      run: |
+        echo "🎨 Verificando CSS..."
+        test -s style.css || (echo "❌ style.css está vazio" && exit 1)
+        echo "✅ CSS presente!"
+        
+    - name: 🔧 Verificar JavaScript
+      run: |
+        echo "🔧 Verificando JavaScript..."
+        test -s script.js || (echo "❌ script.js está vazio" && exit 1)
+        # Verificar sintaxe básica
+        node -c script.js || (echo "❌ Erro de sintaxe em script.js" && exit 1)
+        echo "✅ JavaScript válido!"
+        
+    - name: 📱 Verificar responsividade
+      run: |
+        echo "📱 Verificando meta tags de responsividade..."
+        grep -q "viewport" index.html || (echo "❌ Meta viewport não encontrada" && exit 1)
+        echo "✅ Meta tags de responsividade presentes!"
+        
+    - name: 📚 Verificar documentação
+      run: |
+        echo "📚 Verificando documentação..."
+        grep -q "Tetris" README.md || (echo "❌ README.md não menciona Tetris" && exit 1)
+        grep -q "## " README.md || (echo "❌ README.md sem seções" && exit 1)
+        echo "✅ Documentação adequada!"
+
+  deploy:
+    name: 🌐 Deploy GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    
+    steps:
+    - name: 📥 Checkout código
+      uses: actions/checkout@v4
+      
+    - name: 🚀 Deploy para GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        
+    - name: ✅ Confirmação de deploy
+      run: |
+        echo "🎉 Deploy realizado com sucesso!"
+        echo "🌐 Site disponível em: https://${{ github.repository_owner }}.github.io/tetris"

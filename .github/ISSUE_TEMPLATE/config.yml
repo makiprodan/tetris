@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🎮 Jogar Tetris Online
+    url: https://makiprodan.github.io/tetris/
+    about: Acesse o jogo diretamente no seu navegador
+  - name: 📚 Documentação
+    url: https://github.com/makiprodan/tetris/blob/master/README.md
+    about: Leia a documentação completa do projeto
+  - name: 📋 Changelog
+    url: https://github.com/makiprodan/tetris/blob/master/CHANGELOG.md
+    about: Veja o histórico de versões e mudanças

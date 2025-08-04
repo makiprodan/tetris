@@ -50,13 +50,33 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - **Controles adaptativos** baseados no dispositivo
 - **Layout flexível** que se adapta a diferentes telas
 
-## [Planejado] - Próximas Versões
+## [1.1.0] - 2024-01-20
 
-### 🚀 v1.1.0 - Melhorias de Jogabilidade
-- [ ] Sistema de pontuações máximas local (localStorage)
-- [ ] Modo peça fantasma (visualização da posição final)
-- [ ] Sistema de segurar peça
-- [ ] Estatísticas detalhadas de jogo
+### ✨ Adicionado
+- **🏆 Sistema de High Score Local** - Pontuação máxima salva automaticamente no localStorage
+- **👻 Peça Fantasma** - Visualização semi-transparente da posição onde a peça atual cairá
+- **📦 Sistema Hold** - Capacidade de segurar uma peça para uso posterior (tecla C)
+- **📊 Estatísticas Detalhadas** em tempo real:
+  - Contador de peças colocadas
+  - Cronômetro de jogo (MM:SS)
+  - PPS (Peças Por Segundo)
+  - Contador específico de Tetris (4 linhas)
+- **🎮 Botão Hold Mobile** - Controle touch dedicado para dispositivos móveis
+- **📱 Painel de Estatísticas** - Interface lateral com todas as informações do jogo
+
+### 🔄 Modificado
+- **Interface reorganizada** com painel lateral para estatísticas
+- **Controles mobile atualizados** com novo botão para hold
+- **Sistema de pontuação aprimorado** com salvamento automático do high score
+- **Responsividade melhorada** para acomodar novas funcionalidades
+
+### 🔧 Melhorias Técnicas
+- **Código modularizado** com funções específicas para cada funcionalidade
+- **Gerenciamento de estado** otimizado para hold e ghost piece
+- **Performance melhorada** na atualização das estatísticas
+- **Compatibilidade mantida** com todos os dispositivos
+
+## [Planejado] - Próximas Versões
 
 ### 🎵 v1.2.0 - Áudio e Efeitos
 - [ ] Efeitos sonoros para ações
