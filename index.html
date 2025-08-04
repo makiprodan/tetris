@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris - Jogo Original</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>TETRIS</h1>
+            <div class="score-container">
+                <div class="score-item">
+                    <span class="label">PONTUAÇÃO</span>
+                    <span class="value" id="score">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">LINHAS</span>
+                    <span class="value" id="lines">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">NÍVEL</span>
+                    <span class="value" id="level">1</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-board-container">
+            <div class="next-piece-container">
+                <h3>PRÓXIMA</h3>
+                <canvas id="next-canvas" width="80" height="80"></canvas>
+            </div>
+            
+            <div class="main-game">
+                <canvas id="game-canvas" width="300" height="600"></canvas>
+                <div class="game-over" id="game-over">
+                    <h2>GAME OVER</h2>
+                    <p>Pontuação Final: <span id="final-score">0</span></p>
+                    <button id="restart-btn">JOGAR NOVAMENTE</button>
+                </div>
+            </div>
+            
+            <div class="controls-info">
+                <h3>CONTROLES</h3>
+                <div class="control-item">
+                    <span class="key">←→</span>
+                    <span class="action">Mover</span>
+                </div>
+                <div class="control-item">
+                    <span class="key">↓</span>
+                    <span class="action">Acelerar</span>
+                </div>
+                <div class="control-item">
+                    <span class="key">↑</span>
+                    <span class="action">Rotacionar</span>
+                </div>
+                <div class="control-item">
+                    <span class="key">ESPAÇO</span>
+                    <span class="action">Pausar</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mobile-controls">
+            <div class="control-row">
+                <button class="control-btn" id="rotate-btn">↻</button>
+                <button class="control-btn" id="pause-btn">⏸</button>
+            </div>
+            <div class="control-row">
+                <button class="control-btn" id="left-btn">←</button>
+                <button class="control-btn" id="down-btn">↓</button>
+                <button class="control-btn" id="right-btn">→</button>
+            </div>
+        </div>
+        
+        <div class="pause-overlay" id="pause-overlay">
+            <div class="pause-message">
+                <h2>PAUSADO</h2>
+                <p>Pressione ESPAÇO para continuar</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
