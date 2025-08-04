@@ -17,7 +17,11 @@ const COLORS = {
 // Formas das peças (Tetrominos)
 const PIECES = {
     I: [
-        [[1, 1, 1, 1]]
+        [[1, 1, 1, 1]],
+        [[1],
+         [1],
+         [1],
+         [1]]
     ],
     O: [
         [[1, 1],
