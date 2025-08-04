@@ -9,10 +9,12 @@ body {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: white;
     min-height: 100vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
+    overflow: hidden;
 }
 
 .game-container {
@@ -98,6 +100,10 @@ body {
     background: #000;
     display: block;
     border-radius: 5px;
+    width: 320px;
+    height: 640px;
+    max-height: 70vh;
+    max-width: 35vh;
 }
 
 .controls-info {
@@ -244,6 +250,37 @@ body {
 }
 
 /* Responsividade */
+@media (min-width: 769px) {
+    /* Desktop - Adaptação vertical */
+    .game-container {
+        max-height: 95vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    #game-canvas {
+        width: auto;
+        height: auto;
+        max-width: min(320px, 35vh);
+        max-height: min(640px, 70vh);
+        aspect-ratio: 1/2;
+    }
+    
+    .game-board-container {
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+    }
+    
+    .next-piece-container,
+    .controls-info {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+}
+
 @media (max-width: 768px) {
     .game-header h1 {
         font-size: 2rem;

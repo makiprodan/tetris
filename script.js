@@ -133,8 +133,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    
+    // Para desktop, garantir que o canvas se adapte à altura da viewport
+    if (window.innerWidth > 768) {
+        const maxHeight = window.innerHeight * 0.7; // 70% da altura da viewport
+        const maxWidth = maxHeight / 2; // Manter proporção 1:2
+        
+        canvas.width = Math.min(rect.width, maxWidth);
+        canvas.height = Math.min(rect.height, maxHeight);
+    } else {
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+    }
     
     // Recalcular tamanho dos blocos
     window.blockSize = Math.min(canvas.width / BOARD_WIDTH, canvas.height / BOARD_HEIGHT);
