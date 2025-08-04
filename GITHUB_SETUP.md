@@ -12,8 +12,8 @@
 
 ### 2. Conectar Repositório Local ao GitHub
 ```bash
-# Adicionar remote origin (substitua SEU_USUARIO pelo seu username)
-git remote add origin https://github.com/SEU_USUARIO/tetris.git
+# Adicionar remote origin
+git remote add origin https://github.com/makiprodan/tetris.git
 
 # Fazer push do código e tags
 git push -u origin master
@@ -27,16 +27,12 @@ git push origin --tags
 4. Branch: "master" / "main"
 5. Folder: "/ (root)"
 6. Clique em "Save"
-7. Seu jogo estará disponível em: `https://SEU_USUARIO.github.io/tetris`
+7. Seu jogo estará disponível em: `https://makiprodan.github.io/tetris`
 
 ### 4. Atualizar README
-Após configurar o GitHub Pages, edite o README.md e substitua:
+✅ **README já atualizado** com o link correto:
 ```markdown
-[🎮 **Jogar Agora**](https://seu-usuario.github.io/tetris)
-```
-Por:
-```markdown
-[🎮 **Jogar Agora**](https://SEU_USUARIO.github.io/tetris)
+[🎮 **Jogar Agora**](https://makiprodan.github.io/tetris)
 ```
 
 ## 📋 Status Atual do Repositório
@@ -61,12 +57,12 @@ Por:
 3. **Criar Issues** para futuras melhorias
 4. **Configurar GitHub Actions** para CI/CD (opcional)
 
-### Futuras Releases
+### Futuras Versões
 ```bash
 # Para próximas versões:
 git add .
-git commit -m "✨ feat: nova funcionalidade"
-git tag -a v1.1.0 -m "Versão 1.1.0 - Descrição"
+git commit -m "✨ feat: adiciona nova funcionalidade"
+git tag -a v1.1.0 -m "Versão 1.1.0 - Descrição da versão"
 git push origin master --tags
 ```
 

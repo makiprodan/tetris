@@ -18,7 +18,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - **Design totalmente responsivo** para desktop, tablet e mobile
 - **Controles adaptativos** - teclado no desktop, botões touch no mobile
 - **Sistema de pausa** completo
-- **Tela de Game Over** com pontuação final
+- **Tela de Fim de Jogo** com pontuação final
 - **Efeitos visuais 3D** nos blocos
 - **Animações suaves** e transições
 - **Prevenção de scroll** em dispositivos móveis
@@ -52,13 +52,13 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Planejado] - Próximas Versões
 
-### 🚀 v1.1.0 - Melhorias de Gameplay
-- [ ] Sistema de high scores local (localStorage)
-- [ ] Modo ghost piece (visualização da posição final)
-- [ ] Sistema de hold (segurar peça)
+### 🚀 v1.1.0 - Melhorias de Jogabilidade
+- [ ] Sistema de pontuações máximas local (localStorage)
+- [ ] Modo peça fantasma (visualização da posição final)
+- [ ] Sistema de segurar peça
 - [ ] Estatísticas detalhadas de jogo
 
-### 🎵 v1.2.0 - Audio e Efeitos
+### 🎵 v1.2.0 - Áudio e Efeitos
 - [ ] Efeitos sonoros para ações
 - [ ] Música de fundo
 - [ ] Controle de volume
@@ -71,7 +71,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - [ ] Modo escuro/claro
 
 ### 🌐 v2.0.0 - Recursos Avançados
-- [ ] Modo multiplayer local
+- [ ] Modo multijogador local
 - [ ] Sistema de conquistas
 - [ ] Diferentes modos de jogo
 - [ ] Integração com redes sociais

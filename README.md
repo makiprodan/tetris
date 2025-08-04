@@ -10,7 +10,7 @@ Um jogo Tetris completo e responsivo, fiel ao clássico original, desenvolvido c
 
 ## 🚀 Demonstração
 
-[🎮 **Jogar Agora**](https://seu-usuario.github.io/tetris) *(substitua pelo seu link do GitHub Pages)*
+[🎮 **Jogar Agora**](https://makiprodan.github.io/tetris)
 
 ## ✨ Características
 
@@ -50,7 +50,7 @@ Um jogo Tetris completo e responsivo, fiel ao clássico original, desenvolvido c
 ### Método 1: Download Direto
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/tetris.git
+git clone https://github.com/makiprodan/tetris.git
 
 # Entre no diretório
 cd tetris
@@ -63,7 +63,7 @@ python -m http.server 8000
 ### Método 2: GitHub Pages
 1. Faça fork do repositório
 2. Ative o GitHub Pages nas configurações
-3. Acesse: `https://seu-usuario.github.io/tetris`
+3. Acesse: `https://makiprodan.github.io/tetris`
 
 ## 🎯 Como Jogar
 
@@ -130,19 +130,19 @@ const dropInterval = Math.max(50, 1000 - (level - 1) * 100);
 ## 🤝 Contribuindo
 
 1. Faça fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
+2. Crie uma branch para sua feature (`git checkout -b feature/NovaFuncionalidade`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
 5. Abra um Pull Request
 
 ## 📝 Roadmap
 
-- [ ] Sistema de high scores local
+- [ ] Sistema de pontuações máximas local
 - [ ] Efeitos sonoros
-- [ ] Modo multiplayer
+- [ ] Modo multijogador
 - [ ] Temas personalizáveis
-- [ ] Modo ghost piece (peça fantasma)
-- [ ] Sistema de hold (segurar peça)
+- [ ] Modo peça fantasma
+- [ ] Sistema de segurar peça
 
 ## 📄 Licença
 
@@ -150,9 +150,9 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👨‍💻 Autor
 
-**Seu Nome**
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- LinkedIn: [Seu Perfil](https://linkedin.com/in/seu-perfil)
+**Maki Prodan**
+- GitHub: [@makiprodan](https://github.com/makiprodan)
+- LinkedIn: [Maki Prodan](https://linkedin.com/in/makiprodan)
 
 ## 🙏 Agradecimentos
 
