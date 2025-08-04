@@ -277,6 +277,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function resizeCanvas() {
+    if (!canvas) return; // Verificar se o canvas existe
+    
     const rect = canvas.getBoundingClientRect();
     
     // Para desktop, garantir que o canvas se adapte à altura da viewport
