@@ -104,6 +104,112 @@ let gameStats = {
     gameTime: 0
 };
 
+// Sistema de Som
+let soundEnabled = true;
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+// Configurações
+let currentTheme = 'classic';
+
+// Sistema de Animação
+let animatingLines = [];
+let animationTime = 0;
+const ANIMATION_DURATION = 500; // 500ms
+
+// Funções de Som
+function playSound(frequency, duration, type = 'sine') {
+    if (!soundEnabled) return;
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = frequency;
+    oscillator.type = type;
+    
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration);
+}
+
+function playMoveSound() {
+    playSound(200, 0.1);
+}
+
+function playRotateSound() {
+    playSound(300, 0.1);
+}
+
+function playDropSound() {
+    playSound(150, 0.2);
+}
+
+function playLineClearSound() {
+    playSound(400, 0.3);
+    setTimeout(() => playSound(500, 0.2), 100);
+}
+
+function playTetrisSound() {
+    playSound(600, 0.4);
+    setTimeout(() => playSound(700, 0.3), 150);
+    setTimeout(() => playSound(800, 0.3), 300);
+    setTimeout(() => playSound(900, 0.4), 450);
+}
+
+function playGameOverSound() {
+    playSound(200, 0.5);
+    setTimeout(() => playSound(150, 0.5), 200);
+    setTimeout(() => playSound(100, 0.8), 400);
+}
+
+// Funções de Tema
+function loadSettings() {
+    const savedTheme = localStorage.getItem('tetris-theme');
+    const savedSound = localStorage.getItem('tetris-sound');
+    
+    if (savedTheme) {
+        currentTheme = savedTheme;
+        applyTheme(currentTheme);
+        document.getElementById('theme-selector').value = currentTheme;
+    }
+    
+    if (savedSound !== null) {
+        soundEnabled = savedSound === 'true';
+        updateSoundButton();
+    }
+}
+
+function saveSettings() {
+    localStorage.setItem('tetris-theme', currentTheme);
+    localStorage.setItem('tetris-sound', soundEnabled.toString());
+}
+
+function applyTheme(theme) {
+    document.body.className = theme === 'classic' ? '' : `theme-${theme}`;
+    currentTheme = theme;
+    saveSettings();
+}
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    updateSoundButton();
+    saveSettings();
+    
+    if (soundEnabled) {
+        playMoveSound(); // Som de teste
+    }
+}
+
+function updateSoundButton() {
+    const button = document.getElementById('sound-toggle');
+    button.textContent = soundEnabled ? '🔊' : '🔇';
+    button.title = soundEnabled ? 'Desativar som' : 'Ativar som';
+}
+
 // Pontuação
 const POINTS = {
     1: 40,   // 1 linha
@@ -138,18 +244,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ajustar tamanho do canvas baseado no CSS
     resizeCanvas();
     
-    // Carregar high score
+    // Carregar high score e configurações
     loadHighScore();
+    loadSettings();
     
     // Event listeners
     document.addEventListener('keydown', handleKeyPress);
     document.getElementById('restart-btn').addEventListener('click', restartGame);
+    
+    // Event listeners para configurações
+    document.getElementById('sound-toggle').addEventListener('click', toggleSound);
+    document.getElementById('theme-selector').addEventListener('change', (e) => {
+        applyTheme(e.target.value);
+    });
     
     // Controles móveis
     document.getElementById('left-btn').addEventListener('click', () => movePiece(-1, 0));
     document.getElementById('right-btn').addEventListener('click', () => movePiece(1, 0));
     document.getElementById('down-btn').addEventListener('click', () => movePiece(0, 1));
     document.getElementById('rotate-btn').addEventListener('click', rotatePiece);
+    document.getElementById('hold-btn').addEventListener('click', holdCurrentPiece);
     document.getElementById('pause-btn').addEventListener('click', togglePause);
     
     // Prevenir scroll em dispositivos móveis
@@ -327,6 +441,12 @@ function movePiece(dx, dy) {
         currentPiece.x = newX;
         currentPiece.y = newY;
         updateGhostPiece();
+        
+        // Som de movimento
+        if (dx !== 0) {
+            playMoveSound();
+        }
+        
         return true;
     }
     
@@ -350,6 +470,7 @@ function rotatePiece() {
         currentPiece.shape = rotatedShape;
         currentPiece.rotation = nextRotation;
         updateGhostPiece();
+        playRotateSound();
     }
 }
 
@@ -376,6 +497,9 @@ function isValidPosition(shape, x, y) {
 }
 
 function placePiece() {
+    // Som de drop
+    playDropSound();
+    
     // Colocar peça no tabuleiro
     for (let row = 0; row < currentPiece.shape.length; row++) {
         for (let col = 0; col < currentPiece.shape[row].length; col++) {
@@ -398,14 +522,21 @@ function placePiece() {
     if (linesCleared > 0) {
         lines += linesCleared;
         
+        // Som de linha limpa
+        if (linesCleared === 4) {
+            playTetrisSound();
+        } else {
+            playLineClearSound();
+        }
+        
         // Calcular pontuação baseada no número de linhas
         let points = 0;
         switch(linesCleared) {
-            case 1: points = POINTS.SINGLE; break;
-            case 2: points = POINTS.DOUBLE; break;
-            case 3: points = POINTS.TRIPLE; break;
+            case 1: points = POINTS[1]; break;
+            case 2: points = POINTS[2]; break;
+            case 3: points = POINTS[3]; break;
             case 4: 
-                points = POINTS.TETRIS;
+                points = POINTS[4];
                 gameStats.tetrisCount++;
                 break;
         }
@@ -431,19 +562,36 @@ function placePiece() {
 }
 
 function clearLines() {
-    let linesCleared = 0;
+    let completedLines = [];
     
+    // Encontrar linhas completas
     for (let row = BOARD_HEIGHT - 1; row >= 0; row--) {
         if (board[row].every(cell => cell !== 0)) {
-            // Linha completa encontrada
-            board.splice(row, 1);
-            board.unshift(Array(BOARD_WIDTH).fill(0));
-            linesCleared++;
-            row++; // Verificar a mesma linha novamente
+            completedLines.push(row);
         }
     }
     
-    return linesCleared;
+    if (completedLines.length > 0) {
+        // Iniciar animação
+        animatingLines = completedLines.map(row => ({
+            row: row,
+            startTime: Date.now(),
+            originalColors: [...board[row]]
+        }));
+        
+        // Aguardar animação antes de remover linhas
+        setTimeout(() => {
+            // Remover linhas após animação
+            completedLines.sort((a, b) => b - a); // Ordenar do maior para o menor
+            completedLines.forEach(row => {
+                board.splice(row, 1);
+                board.unshift(Array(BOARD_WIDTH).fill(0));
+            });
+            animatingLines = [];
+        }, ANIMATION_DURATION);
+    }
+    
+    return completedLines.length;
 }
 
 function gameLoop(time = 0) {
@@ -482,7 +630,13 @@ function draw() {
     for (let row = 0; row < BOARD_HEIGHT; row++) {
         for (let col = 0; col < BOARD_WIDTH; col++) {
             if (board[row][col]) {
-                drawBlock(col * blockSize, row * blockSize, blockSize, board[row][col]);
+                // Verificar se esta linha está sendo animada
+                const animatingLine = animatingLines.find(line => line.row === row);
+                if (animatingLine) {
+                    drawAnimatedBlock(col * blockSize, row * blockSize, blockSize, board[row][col], animatingLine);
+                } else {
+                    drawBlock(col * blockSize, row * blockSize, blockSize, board[row][col]);
+                }
             }
         }
     }
@@ -517,6 +671,48 @@ function drawBlock(x, y, size, color) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.fillRect(x, y + size - 2, size, 2);
     ctx.fillRect(x + size - 2, y, 2, size);
+}
+
+function drawAnimatedBlock(x, y, size, color, animatingLine) {
+    const elapsed = Date.now() - animatingLine.startTime;
+    const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
+    
+    ctx.save();
+    
+    // Efeito de pulsação
+    const scale = 1 + Math.sin(progress * Math.PI * 4) * 0.1;
+    const centerX = x + size / 2;
+    const centerY = y + size / 2;
+    
+    ctx.translate(centerX, centerY);
+    ctx.scale(scale, scale);
+    ctx.translate(-centerX, -centerY);
+    
+    // Mudança de cor gradual para branco
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    
+    const newR = Math.floor(r + (255 - r) * progress);
+    const newG = Math.floor(g + (255 - g) * progress);
+    const newB = Math.floor(b + (255 - b) * progress);
+    
+    const animatedColor = `rgb(${newR}, ${newG}, ${newB})`;
+    
+    // Desenhar bloco animado
+    ctx.fillStyle = animatedColor;
+    ctx.fillRect(x, y, size, size);
+    
+    // Brilho adicional
+    ctx.fillStyle = `rgba(255, 255, 255, ${progress * 0.5})`;
+    ctx.fillRect(x, y, size, size);
+    
+    // Borda brilhante
+    ctx.strokeStyle = `rgba(255, 255, 255, ${progress})`;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x, y, size, size);
+    
+    ctx.restore();
 }
 
 function drawPiece(piece, blockSize) {
@@ -666,6 +862,7 @@ function hidePause() {
 
 function gameOver() {
     gameRunning = false;
+    playGameOverSound();
     saveHighScore();
     document.getElementById('final-score').textContent = score.toLocaleString();
     showGameOver();

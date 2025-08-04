@@ -50,6 +50,44 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - **Controles adaptativos** baseados no dispositivo
 - **Layout flexível** que se adapta a diferentes telas
 
+## [1.2.0] - 2024-01-22
+
+### ✨ Adicionado
+- **🔊 Sistema de Efeitos Sonoros** completo:
+  - Som de movimento horizontal das peças
+  - Som de rotação das peças
+  - Som de queda/colocação das peças
+  - Som específico para line clear (1-3 linhas)
+  - Som especial para Tetris (4 linhas)
+  - Som de game over
+  - Botão para ligar/desligar sons
+- **🎨 Sistema de Temas Personalizáveis**:
+  - **Tema Clássico** - Design original azul
+  - **Tema Neon** - Cores vibrantes com efeitos luminosos
+  - **Tema Retrô** - Estilo vintage com tons sépia
+  - **Tema Escuro** - Interface dark mode elegante
+  - Seletor de tema na interface
+  - Configurações salvas automaticamente
+- **✨ Animações de Linha Completa Aprimoradas**:
+  - Efeito de escala dinâmica nos blocos
+  - Mudança de cor progressiva durante a animação
+  - Borda brilhante com efeito glow
+  - Animação suave de 500ms antes da remoção
+  - Cores diferentes para line clear vs Tetris
+
+### 🔄 Modificado
+- **Interface atualizada** com seção de configurações
+- **Sistema de áudio** integrado com Web Audio API
+- **Animações otimizadas** para melhor performance visual
+- **Configurações persistentes** salvas no localStorage
+
+### 🔧 Melhorias Técnicas
+- **Web Audio API** para reprodução de sons sintéticos
+- **Sistema de temas** com CSS dinâmico
+- **Animações baseadas em keyframes** CSS
+- **Gerenciamento de configurações** centralizado
+- **Performance otimizada** para animações complexas
+
 ## [1.1.0] - 2024-01-20
 
 ### ✨ Adicionado
@@ -78,22 +116,22 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Planejado] - Próximas Versões
 
-### 🎵 v1.2.0 - Áudio e Efeitos
-- [ ] Efeitos sonoros para ações
+### 🎵 v1.3.0 - Áudio Avançado
 - [ ] Música de fundo
-- [ ] Controle de volume
-- [ ] Efeitos visuais para linha completa
+- [ ] Controle de volume independente
+- [ ] Efeitos sonoros adicionais
+- [ ] Temas musicais por tema visual
 
-### 🎨 v1.3.0 - Personalização
-- [ ] Temas personalizáveis
-- [ ] Cores customizáveis das peças
-- [ ] Diferentes estilos de blocos
-- [ ] Modo escuro/claro
+### 🎮 v1.4.0 - Modos de Jogo
+- [ ] Modo Sprint (40 linhas)
+- [ ] Modo Marathon
+- [ ] Modo Zen (sem game over)
+- [ ] Desafios diários
 
 ### 🌐 v2.0.0 - Recursos Avançados
 - [ ] Modo multijogador local
 - [ ] Sistema de conquistas
-- [ ] Diferentes modos de jogo
+- [ ] Ranking online
 - [ ] Integração com redes sociais
 
 ---

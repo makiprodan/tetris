@@ -122,10 +122,18 @@ body {
     background: rgba(255, 255, 255, 0.1);
     padding: 15px;
     border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.settings-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
 }
 
 .controls-info h3,
-.stats-container h3 {
+.stats-container h3,
+.settings-container h3 {
     margin-bottom: 15px;
     font-size: 1rem;
     color: #ccc;
@@ -164,6 +172,48 @@ body {
 .stat-item .stat-value {
     color: #00ff00;
     font-weight: bold;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.setting-item .setting-label {
+    color: #ccc;
+}
+
+.setting-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #00ff00;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.setting-btn:hover {
+    background: rgba(0, 255, 0, 0.2);
+}
+
+.theme-selector {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #00ff00;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-family: inherit;
+}
+
+.theme-selector option {
+    background: #1e3c72;
+    color: white;
 }
 
 .mobile-controls {
@@ -422,11 +472,137 @@ body {
 
 /* Animações */
 @keyframes lineComplete {
-    0% { background-color: rgba(255, 255, 255, 0.8); }
-    50% { background-color: rgba(255, 255, 255, 0.4); }
-    100% { background-color: transparent; }
+    0% { 
+        background-color: rgba(255, 255, 255, 0.9);
+        transform: scaleX(1);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+    25% { 
+        background-color: rgba(255, 255, 0, 0.8);
+        transform: scaleX(1.05);
+        box-shadow: 0 0 30px rgba(255, 255, 0, 0.8);
+    }
+    50% { 
+        background-color: rgba(255, 0, 255, 0.8);
+        transform: scaleX(1.1);
+        box-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
+    }
+    75% { 
+        background-color: rgba(0, 255, 255, 0.8);
+        transform: scaleX(1.05);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+    }
+    100% { 
+        background-color: transparent;
+        transform: scaleX(1);
+        box-shadow: none;
+    }
+}
+
+@keyframes tetrisComplete {
+    0% { 
+        background-color: rgba(255, 215, 0, 0.9);
+        transform: scale(1);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    }
+    25% { 
+        background-color: rgba(255, 0, 0, 0.9);
+        transform: scale(1.1);
+        box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
+    }
+    50% { 
+        background-color: rgba(0, 255, 0, 0.9);
+        transform: scale(1.2);
+        box-shadow: 0 0 70px rgba(0, 255, 0, 0.8);
+    }
+    75% { 
+        background-color: rgba(0, 0, 255, 0.9);
+        transform: scale(1.1);
+        box-shadow: 0 0 50px rgba(0, 0, 255, 0.8);
+    }
+    100% { 
+        background-color: transparent;
+        transform: scale(1);
+        box-shadow: none;
+    }
 }
 
 .line-complete {
-    animation: lineComplete 0.5s ease-in-out;
+    animation: lineComplete 0.8s ease-in-out;
+}
+
+.tetris-complete {
+    animation: tetrisComplete 1.2s ease-in-out;
+}
+
+/* Temas */
+/* Tema Neon */
+body.theme-neon {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 100%);
+}
+
+body.theme-neon .game-container {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #ff00ff;
+    box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+}
+
+body.theme-neon .game-header h1 {
+    color: #ff00ff;
+    text-shadow: 0 0 20px #ff00ff;
+}
+
+body.theme-neon .score-item .value {
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+body.theme-neon #game-canvas {
+    border: 3px solid #ff00ff;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+}
+
+/* Tema Retrô */
+body.theme-retro {
+    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+}
+
+body.theme-retro .game-container {
+    background: rgba(139, 69, 19, 0.8);
+    border: 3px solid #FFD700;
+}
+
+body.theme-retro .game-header h1 {
+    color: #FFD700;
+    text-shadow: 2px 2px 4px #8B4513;
+}
+
+body.theme-retro .score-item .value {
+    color: #FFD700;
+}
+
+body.theme-retro #game-canvas {
+    border: 3px solid #FFD700;
+}
+
+/* Tema Escuro */
+body.theme-dark {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+}
+
+body.theme-dark .game-container {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #333;
+}
+
+body.theme-dark .game-header h1 {
+    color: #666;
+}
+
+body.theme-dark .score-item .value {
+    color: #999;
+}
+
+body.theme-dark #game-canvas {
+    border: 3px solid #333;
 }

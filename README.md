@@ -34,6 +34,11 @@ Um jogo Tetris completo e responsivo com funcionalidades avançadas, fiel ao cl�
 - **📦 Sistema Hold** - Segurar peça para uso posterior (tecla C)
 - **📊 Estatísticas Detalhadas** - Peças, tempo, PPS e contagem de Tetris
 
+### 🎵 Novas Funcionalidades (v1.2.0)
+- **🔊 Efeitos Sonoros** - Sons para movimento, rotação, drop e line clear
+- **🎨 Temas Personalizáveis** - Clássico, Neon, Retrô e Escuro
+- **✨ Animações Aprimoradas** - Efeitos visuais para linhas completas
+
 ### 📱 Totalmente Responsivo
 - **Design adaptativo** para desktop, tablet e mobile
 - **Controles touch** otimizados para dispositivos móveis
@@ -176,10 +181,12 @@ Para reportar vulnerabilidades, consulte nossa [Política de Segurança](SECURIT
 - [x] Modo peça fantasma ✅ v1.1.0
 - [x] Sistema de segurar peça ✅ v1.1.0
 - [x] Estatísticas detalhadas ✅ v1.1.0
-- [ ] Efeitos sonoros
+- [x] Efeitos sonoros ✅ v1.2.0
+- [x] Temas personalizáveis ✅ v1.2.0
+- [x] Animações de linha completa aprimoradas ✅ v1.2.0
 - [ ] Modo multijogador
-- [ ] Temas personalizáveis
-- [ ] Animações de linha completa aprimoradas
+- [ ] Sistema de ranking online
+- [ ] Modo sprint (40 linhas)
 
 ## 📄 Licença
 
