@@ -8,6 +8,7 @@
 
 | Seção | Descrição | Ir para |
 |-------|-----------|---------|
+| **🇧🇷 [IDIOMA E LOCALIZAÇÃO](#-idioma-e-localização)** | Configurações de idioma | [↓](#-idioma-e-localização) |
 | **🎯 [CHECKLIST RÁPIDO](#-checklist-rápido)** | Lista de verificação essencial | [↓](#-checklist-rápido) |
 | **📁 [ARQUIVOS OBRIGATÓRIOS](#-arquivos-obrigatórios)** | Arquivos que DEVEM existir | [↓](#-arquivos-obrigatórios) |
 | **⚡ [COMANDOS TESTADOS](#-comandos-testados)** | Comandos que funcionaram | [↓](#-comandos-testados) |
@@ -15,6 +16,132 @@
 | **🔧 [CONFIGURAÇÃO GITHUB](#-configuração-github)** | Templates e workflows | [↓](#-configuração-github) |
 | **❌ [PROBLEMAS COMUNS](#-problemas-comuns)** | Soluções testadas | [↓](#-problemas-comuns) |
 | **📖 [TEMPLATES PRONTOS](#-templates-prontos)** | Conteúdo para copiar | [↓](#-templates-prontos) |
+
+---
+
+## 🇧🇷 IDIOMA E LOCALIZAÇÃO
+
+### **📝 REGRA FUNDAMENTAL: PORTUGUÊS DO BRASIL**
+
+**A IA DEVE SEMPRE gerar todo conteúdo em PORTUGUÊS DO BRASIL, incluindo:**
+
+#### ✅ **Conteúdo que DEVE ser em Português:**
+- **README.md** - Descrições, instruções, funcionalidades
+- **CHANGELOG.md** - Descrições de mudanças e melhorias
+- **Release Notes** - Notas de lançamento completas
+- **Issues Templates** - Templates de bug reports e feature requests
+- **Pull Request Templates** - Descrições e checklists
+- **CONTRIBUTING.md** - Guias de contribuição
+- **Comentários em código** - Explicações e documentação
+- **Mensagens de commit** - Descrições das mudanças
+- **Documentação técnica** - Manuais e guias
+
+#### 🔧 **Conteúdo que pode ser em Inglês:**
+- **Nomes de variáveis e funções** - Padrão internacional
+- **Comandos de terminal** - Comandos técnicos
+- **URLs e links** - Endereços web
+- **Nomes de tecnologias** - JavaScript, HTML, CSS, etc.
+- **Palavras-chave técnicas** - commit, push, pull, merge, etc.
+
+### **📋 Exemplos Corretos:**
+
+#### ✅ **README.md em Português:**
+```markdown
+# 🎮 Jogo Tetris
+
+## 📝 Descrição
+Este é um jogo de Tetris moderno desenvolvido com HTML5, CSS3 e JavaScript vanilla.
+
+## ✨ Funcionalidades
+- 🎵 Efeitos sonoros dinâmicos
+- 🎨 Temas personalizáveis
+- 📱 Compatível com dispositivos móveis
+- 🏆 Sistema de pontuação
+
+## 🚀 Como Jogar
+1. Use as setas do teclado para mover as peças
+2. Pressione a barra de espaço para rotacionar
+3. Complete linhas horizontais para pontuar
+```
+
+#### ✅ **CHANGELOG.md em Português:**
+```markdown
+# Histórico de Mudanças
+
+## [1.2.0] - 2024-01-15
+### Adicionado
+- Sistema de efeitos sonoros com Web Audio API
+- Quatro temas personalizáveis (Clássico, Neon, Retrô, Escuro)
+- Animações aprimoradas para line clear
+
+### Melhorado
+- Performance geral do jogo
+- Responsividade em dispositivos móveis
+
+### Corrigido
+- Bug na rotação de peças próximas às bordas
+```
+
+#### ✅ **Release Notes em Português:**
+```markdown
+## 🎮 Tetris v1.2.0 - Sons, Temas e Animações
+
+### 🚀 Principais Novidades
+
+#### 🔊 Sistema de Efeitos Sonoros
+- Sons sintéticos gerados com Web Audio API
+- 6 tipos de sons diferentes para cada ação
+- Controle de áudio com botão toggle
+- Configuração persistente salva automaticamente
+
+#### 🎨 Temas Personalizáveis
+Escolha entre 4 temas únicos:
+- 🔵 Tema Clássico - Design original azul
+- 💫 Tema Neon - Cores vibrantes e luminosas
+- 📼 Tema Retrô - Estilo vintage anos 80/90
+- 🌙 Tema Escuro - Interface dark mode elegante
+```
+
+### **🚨 IMPORTANTE: Configuração UTF-8**
+
+**Para garantir que acentos e caracteres especiais apareçam corretamente:**
+
+#### PowerShell (Windows):
+```powershell
+# SEMPRE incluir no início dos scripts
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+
+# Ao salvar arquivos
+[System.IO.File]::WriteAllText($arquivo, $conteudo, [System.Text.Encoding]::UTF8)
+```
+
+#### Bash (Linux/macOS):
+```bash
+# Configurar locale
+export LANG=pt_BR.UTF-8
+export LC_ALL=pt_BR.UTF-8
+```
+
+### **📝 Mensagens de Commit em Português:**
+```bash
+# ✅ Correto
+git commit -m "feat: adiciona sistema de efeitos sonoros"
+git commit -m "fix: corrige bug na rotação de peças"
+git commit -m "docs: atualiza documentação do README"
+git commit -m "style: melhora responsividade em mobile"
+
+# ❌ Evitar
+git commit -m "add sound effects system"
+git commit -m "fix rotation bug"
+```
+
+### **🎯 Resumo para IA:**
+- **📝 Documentação:** SEMPRE em português do Brasil
+- **🔧 Código técnico:** Pode usar termos em inglês quando padrão
+- **🌐 UTF-8:** SEMPRE configurar corretamente
+- **📋 Templates:** Todos em português
+- **💬 Comunicação:** Português brasileiro em toda interação
 
 ---
 
@@ -450,26 +577,33 @@ Para reportar uma vulnerabilidade, envie um email para: security@exemplo.com
 
 ### **O QUE A IA DEVE FAZER:**
 
-1. **SEMPRE verificar estes 4 arquivos:**
-   - ✅ README.md (completo)
-   - ✅ CHANGELOG.md (atualizado)
+1. **🇧🇷 REGRA FUNDAMENTAL: PORTUGUÊS DO BRASIL**
+   - ✅ Toda documentação em português brasileiro
+   - ✅ Release notes em português
+   - ✅ Templates em português
+   - ✅ Mensagens de commit em português
+   - ✅ Configurar UTF-8 sempre
+
+2. **SEMPRE verificar estes 4 arquivos:**
+   - ✅ README.md (completo e em português)
+   - ✅ CHANGELOG.md (atualizado e em português)
    - ✅ LICENSE (definida)
    - ✅ .gitignore (apropriado)
 
-2. **Para releases, usar este comando:**
+3. **Para releases, usar este comando:**
    ```bash
-   gh release create v1.x.x --title "Título" --notes-file "notas.txt" --latest
+   gh release create v1.x.x --title "Título em Português" --notes-file "notas.txt" --latest
    ```
 
-3. **Para problemas de encoding:**
+4. **Para problemas de encoding:**
    ```powershell
    [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
    [System.IO.File]::WriteAllText($arquivo, $conteudo, [System.Text.Encoding]::UTF8)
    ```
 
-4. **Estrutura .github/ completa:**
-   - Templates de issues
-   - Template de PR
+5. **Estrutura .github/ completa:**
+   - Templates de issues (em português)
+   - Template de PR (em português)
    - Workflows de CI/CD
 
 ### **RESULTADO GARANTIDO:**
